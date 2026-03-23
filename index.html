@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Cintia Carolina 💛</title>
+
+<style>
+body{
+  margin:0;
+  background: linear-gradient(135deg,#ff4e8a,#ff99cc);
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:Arial;
+  animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.9);}
+  to{opacity:1; transform:scale(1);}
+}
+
+.card{
+  background:#f5e9dc;
+  padding:20px;
+  border-radius:20px;
+  width:90%;
+  max-width:400px;
+  text-align:center;
+  z-index:2;
+}
+
+.tree{
+  position:relative;
+  width:220px;
+  height:220px;
+  margin:20px auto;
+}
+
+.trunk{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:20px;
+  height:60px;
+  background:#8B5A2B;
+}
+
+/* 🌻 girasol */
+.sunflower{
+  position:absolute;
+  font-size:18px;
+  opacity:0;
+  transform:scale(0);
+  animation: crecer 0.5s forwards;
+}
+
+@keyframes crecer{
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+/* 🌼 pétalos */
+.petalo{
+  position:absolute;
+  font-size:12px;
+  animation: caer linear forwards;
+}
+
+@keyframes caer{
+  0%{transform:translateY(0);}
+  100%{transform:translateY(100vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Para Cintia Carolina 💛</h2>
+
+  <p>
+    Perdon por no darte tus flores amarillas   🌻💛<br><br>
+    Si pudiera elegir un lugar seguro,<br>
+    sería a tu lado 💛<br><br>
+    te quiero mucho ✨
+  </p>
+
+  <div class="tree" id="tree">
+    <div class="trunk"></div>
+  </div>
+</div>
+
+<!-- 🎵 música -->
+<audio id="music" autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const tree = document.getElementById("tree");
+
+// 🌻 forma de corazón
+function corazon(t){
+  let x = 16*Math.pow(Math.sin(t),3);
+  let y = -(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+  return {x,y};
+}
+
+// 🌻 crecimiento del árbol
+let i = 0;
+let total = 350;
+
+let grow = setInterval(()=>{
+  if(i>=total){
+    clearInterval(grow);
+    lluvia();
+    return;
+  }
+
+  let t = Math.random()*Math.PI*2;
+  let pos = corazon(t);
+
+  let f = document.createElement("div");
+  f.className="sunflower";
+  f.innerHTML="🌻";
+
+  f.style.left = (98 + pos.x*6) + "px";
+  f.style.top = (60 + pos.y*6) + "px";
+
+  tree.appendChild(f);
+
+  i++;
+},20);
+
+// 🌼 lluvia de flores
+function lluvia(){
+  setInterval(()=>{
+    let p = document.createElement("div");
+    p.className="petalo";
+    p.innerHTML="🌻";
+
+    p.style.left = Math.random()*window.innerWidth + "px";
+    p.style.animationDuration = (3+Math.random()*3)+"s";
+
+    document.body.appendChild(p);
+
+    setTimeout(()=>p.remove(),5000);
+  },120);
+}
+
+// 💛 tocar pantalla = flores
+document.addEventListener("click", (e)=>{
+  let f = document.createElement("div");
+  f.innerHTML="🌻";
+  f.style.position="absolute";
+  f.style.left=e.clientX+"px";
+  f.style.top=e.clientY+"px";
+  f.style.fontSize="20px";
+
+  document.body.appendChild(f);
+
+  setTimeout(()=>f.remove(),2000);
+});
+
+// 🔊 activar música (por restricciones del navegador)
+document.body.addEventListener("click", ()=>{
+  document.getElementById("music").play();
+});
+</script>
+
+</body>
+</html>
